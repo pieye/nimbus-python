@@ -21,6 +21,9 @@ cli.disconnect()
 pip install nimbus-python
 ```
 
+# Prerequisites
+Download the current image from https://cloud.pieye.org/index.php/s/c2QSa6P4wBtSJ4K which contains nimbus-userland and all necessary linux drivers.
+
 # Authors
 Markus Proeller
 
