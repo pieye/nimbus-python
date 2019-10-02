@@ -4,16 +4,14 @@
 # nimbus-python
 Python bindings for nimbus
 
-# Getting started
+# Quick start
 
 The following snippet connects to the raspberry and gets the image data.
 
 ```python
-import nimbusPython
-cli = nimbusPython.RawStreamClient("192.168.0.69")
-cli.connect()
-header, (ampl, dist, x, y, z, conf) = cli.getImage()
-cli.disconnect()
+from nimbusPython import NimbusClient
+cli = NimbusClient.NimbusClient("192.168.0.69")
+header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
 ```
 
 # Installation
@@ -23,6 +21,56 @@ pip install nimbus-python
 
 # Prerequisites
 Download the current image from https://cloud.pieye.org/index.php/s/c2QSa6P4wBtSJ4K which contains nimbus-userland and all necessary linux drivers.
+
+# Getting image data
+
+The following snippet connects to the raspberry and gets the image data.
+
+```python
+from nimbusPython import NimbusClient
+cli = NimbusClient.NimbusClient("192.168.0.69")
+header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
+```
+
+The matrices x,y,z represent a point cloud, which can be visualized by mayavi (https://docs.enthought.com/mayavi/mayavi/auto/mlab_helper_functions.html#mayavi.mlab.points3d),
+matplotlib (https://matplotlib.org/mpl_toolkits/mplot3d/tutorial.html#scatter-plots) or similar tools.
+
+The ampl matrix contains the amplitude (i.e. signal strength of each pixel).
+The radial matrix contains the radial distance of each pixel to the camera center.
+The conf matrix contains the confidence information of each pixel (valid, underexposured, saturated, asymmetric).
+
+If you are interested in the amount of valid, under exposured etc. pixels, you can use the following snippet as an example.
+
+```python
+header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
+numUnderExposured = len(conf[conf==NimbusClient.ConfUnderExposured])
+numOverExposured = len(conf[conf==NimbusClient.ConfOverExposured])
+numAsymmetric = len(conf[conf==NimbusClient.ConfAsymmetric])
+numValid = len(conf[conf==NimbusClient.ConfValid])
+```
+
+Based on this information you probably want to change the illumination time (increase the illumination in case of many underexposured pixels):
+
+```python
+rv, data = cli.getExposure()
+if rv == 0:
+    # increase illumination time by 10%
+    newExposure = int(data["exposure"] + data["exposure"]*0.1)
+    rv = cli.setExposure(newExposure)
+    assert rv==0
+```
+
+The illumination time can have any value between 0 and 65535.
+
+Similarily if you want to decrease the number of frames taken by the camera, you can set a framerate value (0 means no pause at end of frame, 65535 means maximum pause at end of frame)
+```python
+# fast acquisition
+rv = cli.setFramerate(0)
+assert rv==0
+# slow acquisition
+rv = cli.setFramerate(65535)
+assert rv==0
+```
 
 # Authors
 Markus Proeller
