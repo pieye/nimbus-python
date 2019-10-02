@@ -15,6 +15,8 @@ header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
 ```
 
 # Installation
+
+nimbus-python uses ebsockets, which requires python 3.6 or higher!
 ```
 pip install nimbus-python
 ```
