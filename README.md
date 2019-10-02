@@ -6,7 +6,7 @@ Python bindings for nimbus. These bindings are ment for a remote connection (ras
 
 # Quick start
 
-The following snippet connects to the raspberry and gets the image data.
+The following snippet connects to the raspberry and gets image data.
 
 ```python
 from nimbusPython import NimbusClient
