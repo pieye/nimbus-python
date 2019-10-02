@@ -91,3 +91,4 @@ This project is licensed under the GPLv3 License - see the LICENSE file for deta
 We use the following 3rd party libraries:
  
 - websockets (BSD 3-Clause "New" or "Revised" License), see https://github.com/aaugustin/websockets
+- requests (Apache V2.0 License), see https://github.com/psf/requests
