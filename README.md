@@ -32,12 +32,19 @@ cli = NimbusClient.NimbusClient("192.168.0.69")
 header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
 ```
 
-The matrices x,y,z represent a point cloud, which can be visualized by mayavi (https://docs.enthought.com/mayavi/mayavi/auto/mlab_helper_functions.html#mayavi.mlab.points3d),
-matplotlib (https://matplotlib.org/mpl_toolkits/mplot3d/tutorial.html#scatter-plots) or similar tools.
+The matrices x,y,z represent a point cloud. Those can be visualized by:
+- mayavi (https://docs.enthought.com/mayavi/mayavi/auto/mlab_helper_functions.html#mayavi.mlab.points3d),
+- matplotlib (https://matplotlib.org/mpl_toolkits/mplot3d/tutorial.html#scatter-plots)
+- any other plotting library
 
-The ampl matrix contains the amplitude (i.e. signal strength of each pixel).
-The radial matrix contains the radial distance of each pixel to the camera center.
-The conf matrix contains the confidence information of each pixel (valid, underexposured, saturated, asymmetric).
+The matrices have the following meaning
+
+| Matrix  |  Explanation  |
+| ------- | ------------- |
+| ampl    | signal strength of each pixel |
+| radial  | radial distance of each pixel to the camera center |
+| x,y,z   | 3D Point cloud |
+| conf    | confidence information of each pixel (valid, underexposured, saturated, asymmetric) |
 
 If you are interested in the amount of valid, under exposured etc. pixels, you can use the following snippet as an example.
 
