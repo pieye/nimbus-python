@@ -2,7 +2,7 @@
      title="pieye logo" width="184" height="55">
 
 # nimbus-python
-Python bindings for nimbus
+Python bindings for nimbus. These bindings are ment for a remote connection (raspberry to a desktop machine).
 
 # Quick start
 
