@@ -399,7 +399,7 @@ class NimbusClient:
             data = result["result"]
         return rv, data
     
-        def setAmplitude(self, ampl):
+    def setAmplitude(self, ampl):
         result = self._getJSONParameter("AutoExposure", 2, None)
         rv = result["success"]
         if rv == 0:
