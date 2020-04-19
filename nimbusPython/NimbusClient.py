@@ -398,6 +398,51 @@ class NimbusClient:
         if (rv == 0):
             data = result["result"]
         return rv, data
+    
+        def setAmplitude(self, ampl):
+        result = self._getJSONParameter("AutoExposure", 2, None)
+        rv = result["success"]
+        if rv == 0:
+            rv = self._setJSONParameter("AutoExposure", 2, int(ampl))
+        return rv    
+
+    def getAmplitude(self):
+        result = self._getJSONParameter("AutoExposure", 2, None)
+        rv = result["success"]
+        data = None
+        if (rv == 0):
+            data = result["result"]
+        return rv, data
+
+    def setMaxExposure(self, exposure):
+        result = self._getJSONParameter("AutoExposure", 0, None)
+        rv = result["success"]
+        if rv == 0:
+            rv = self._setJSONParameter("AutoExposure", 0, int(exposure))
+        return rv    
+
+    def getMaxExposure(self):
+        result = self._getJSONParameter("AutoExposure", 0, None)
+        rv = result["success"]
+        data = None
+        if (rv == 0):
+            data = result["result"]
+        return rv, data
+
+    def setExposureMode(self, exposure_mode):
+        result = self._getJSONParameter("AutoExposure", 1, None)
+        rv = result["success"]
+        if rv == 0:
+            rv = self._setJSONParameter("AutoExposure", 1, int(exposure_mode))
+        return rv    
+
+    def getExposureMode(self):
+        result = self._getJSONParameter("AutoExposure", 1, None)
+        rv = result["success"]
+        data = None
+        if (rv == 0):
+            data = result["result"]
+        return rv, data
 
 if __name__ == "__main__":
     cli = NimbusClient("192.168.0.21")
