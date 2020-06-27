@@ -34,11 +34,16 @@ HeaderTemperature      = 9
 HeaderReconfigCnt      = 11
 HeaderMetaFrameCounter = 12
 HeaderSequenceRestarts = 13
-
-ConfValid          = 0
+ConfLong           = 0
 ConfUnderExposured = 1
 ConfOverExposured  = 2
 ConfAsymmetric     = 3
+ConfShort          = 4
+
+MANUAL      = 0
+MANUAL_HDR  = 1
+AUTO        = 2
+AUTO_HDR    = 3
 
 class NImage:
     @staticmethod
@@ -300,7 +305,9 @@ class NimbusClient:
                 ampl = ampl.astype(float)
                 radial = radial.astype(float)/65535*self._UR
                 if invalidAsNan:
-                    radial[conf!=ConfValid] = numpy.NAN
+                    radial[conf==ConfUnderExposured] = numpy.NAN
+                    radial[conf==ConfOverExposured] = numpy.NAN
+                    radial[conf==ConfAsymmetric] = numpy.NAN
                 if imgType & NimbusImageX == 0:
                     x = radial*self._ux
                 if imgType & NimbusImageY == 0:
@@ -445,5 +452,5 @@ class NimbusClient:
         return rv, data
 
 if __name__ == "__main__":
-    cli = NimbusClient("192.168.0.21")
-    cli.setExposure(1000)
+    cli = NimbusClient("192.168.0.1")
+    header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
