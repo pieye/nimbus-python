@@ -48,6 +48,20 @@ The matrices have the following meaning
 | x,y,z   | 3D Point cloud |
 | conf    | confidence information of each pixel (valid, underexposured, saturated, asymmetric) |
 
+You can change the exposure of the Nimbus 3D. By default,  auto exposure with HDR is activated. If there is a lot of movement, it may be necessary to disable HDR and use the normal auto exposure. However, it is also possible to set the exposure time manually with and without HDR.The following snippet contains the possible configurations.
+
+```python
+# automatic exposure 
+cli.setExposureMode(AUTO_HDR)
+cli.setExposureMode(AUTO)
+cli.setAmplitude(1000)  #<-- to change the desired amplitude (0 - ~5000)
+
+# manual exposure 
+cli.setExposureMode(MANUAL_HDR)
+cli.setExposureMode(MANUAL)
+cli.setExposure(5000)  #<-- to change the exposure time (0 - 65535)
+```
+
 If you are interested in the amount of valid, under exposured etc. pixels, you can use the following snippet as an example.
 
 ```python
