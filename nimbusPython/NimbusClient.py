@@ -45,6 +45,8 @@ MANUAL_HDR  = 1
 AUTO        = 2
 AUTO_HDR    = 3
 
+MANUAL_HDR_FACTOR = 0.3
+
 class NImage:
     @staticmethod
     def create(buf):
@@ -339,10 +341,14 @@ class NimbusClient:
         rv = result["success"]
         if rv == 0:
             seqs = result["result"]
-            for seq in seqs:
-                seq["exposure"] = int(exposure)
+            for i in range(len(seqs)):
+                #Short Exposure if more then 6 sequences --> HDR
+                if i < 6:               
+                    seqs[i]["exposure"] = int(exposure)
+                else:
+                    seqs[i]["exposure"] = int(exposure*MANUAL_HDR_FACTOR)
             seqs[-1]["framerate"] = int(framerate)
-            rv = self._setJSONParameter("nimbusRaw", 0, seqs)
+        rv = self._setJSONParameter("nimbusRaw", 0, seqs)
         return rv
             
     def getExposure(self):
@@ -422,10 +428,7 @@ class NimbusClient:
         return rv, data
 
     def setMaxExposure(self, exposure):
-        result = self._getJSONParameter("AutoExposure", 0, None)
-        rv = result["success"]
-        if rv == 0:
-            rv = self._setJSONParameter("AutoExposure", 0, int(exposure))
+        rv = self._setJSONParameter("AutoExposure", 0, int(exposure))
         return rv    
 
     def getMaxExposure(self):
@@ -437,10 +440,7 @@ class NimbusClient:
         return rv, data
 
     def setExposureMode(self, exposure_mode):
-        result = self._getJSONParameter("AutoExposure", 1, None)
-        rv = result["success"]
-        if rv == 0:
-            rv = self._setJSONParameter("AutoExposure", 1, int(exposure_mode))
+        rv = self._setJSONParameter("AutoExposure", 1, int(exposure_mode))
         return rv    
 
     def getExposureMode(self):
@@ -452,5 +452,5 @@ class NimbusClient:
         return rv, data
 
 if __name__ == "__main__":
-    cli = NimbusClient("192.168.0.1")
+    cli = NimbusClient("192.168.1.24")
     header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
