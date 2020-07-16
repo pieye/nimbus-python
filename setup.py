@@ -1,7 +1,13 @@
 from setuptools import setup, find_packages
+import os
+
+if "GITHUB_REF" in os.environ:
+      version = os.environ["GITHUB_REF"]
+else:
+      version = "0.0.1"
 
 setup(name='nimbus-python',
-      version='0.0.1',
+      version=version,
       description='python bindings for nimbus 3D camera',
       url='https://github.com/pieye/nimbus-python',
       author='Markus Proeller',
