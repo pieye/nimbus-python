@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import os
 
 if "GITHUB_REF" in os.environ:
-      version = os.environ["GITHUB_REF"]
+      version = os.environ["GITHUB_REF"].split("/")[-1]
 else:
       version = "0.0.1"
 
