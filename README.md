@@ -52,13 +52,13 @@ You can change the exposure of the Nimbus 3D. By default,  auto exposure with HD
 
 ```python
 # automatic exposure 
-cli.setExposureMode(AUTO_HDR)
-cli.setExposureMode(AUTO)
+cli.setExposureMode(NimbusClient.AUTO_HDR)
+cli.setExposureMode(NimbusClient.AUTO)
 cli.setAmplitude(1000)  #<-- to change the desired amplitude (0 - ~5000)
 
 # manual exposure 
-cli.setExposureMode(MANUAL_HDR)
-cli.setExposureMode(MANUAL)
+cli.setExposureMode(NimbusClient.MANUAL_HDR)
+cli.setExposureMode(NimbusClient.MANUAL)
 cli.setExposure(5000)  #<-- to change the exposure time (0 - 65535)
 ```
 
@@ -94,6 +94,27 @@ assert rv==0
 rv = cli.setFramerate(65535)
 assert rv==0
 ```
+
+# Enable raw data
+
+To enable raw data streaming, you can use the following code snippet.
+```python
+from nimbusPython import NimbusClient
+import time
+cli = NimbusClient.NimbusClient("192.168.0.69")
+cli.setExposureMode(NimbusClient.MANUAL)
+cli.setExposure(5000)  #<-- to change the exposure time (0 - 65535)
+cli.enaRawMode(True)
+time.sleep(1) #<-- there might be still some 3D images in the pipeline
+header, img = cli.getImage()
+imgType = int(header[NimbusClient.HeaderImgType])
+if imgType == NimbusClient.NimbusImageRaw:
+    print ("raw images received")
+else:
+    print ("something went wrong...")
+    #-> repeat image readout (cli.getImage())
+```
+
 
 # Authors
 Markus Proeller
