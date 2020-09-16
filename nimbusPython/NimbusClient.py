@@ -324,7 +324,7 @@ class NimbusClient:
             arg = 1
         else:
             arg = 0
-        return self.setJSONParameter("preprocessing", 0, arg)
+        return self._setJSONParameter("preprocessing", 0, arg)
     
     def getUserlandVersion(self):
         result = self._getJSONParameter("preprocessing", 1, None)
