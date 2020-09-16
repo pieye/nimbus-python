@@ -318,7 +318,14 @@ class NimbusClient:
                     z = radial*self._uz
                 return header, (ampl, radial, x, y, z, conf)
         return image
-
+    
+    def enaRawMode(self, ena):
+        if ena == True:
+            arg = 1
+        else:
+            arg = 0
+        return self.setJSONParameter("preprocessing", 0, arg)
+    
     def getUserlandVersion(self):
         result = self._getJSONParameter("preprocessing", 1, None)
         rv = result["success"]
