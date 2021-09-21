@@ -69,7 +69,8 @@ header, (ampl, radial, x, y, z, conf) = cli.getImage(invalidAsNan=True)
 numUnderExposured = len(conf[conf==NimbusClient.ConfUnderExposured])
 numOverExposured = len(conf[conf==NimbusClient.ConfOverExposured])
 numAsymmetric = len(conf[conf==NimbusClient.ConfAsymmetric])
-numValid = len(conf[conf==NimbusClient.ConfValid])
+numLong = len(conf[conf==NimbusClient.ConfLong])
+numShot = len(conf[conf==NimbusClient.ConfShort])
 ```
 
 Based on this information you probably want to change the illumination time (increase the illumination in case of many underexposured pixels):
